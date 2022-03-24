@@ -1,0 +1,76 @@
+"""
+You are given two jugs with capacities jug1Capacity and jug2Capacity liters. There is an infinite amount of water supply available. Determine whether it is possible to measure exactly targetCapacity liters using these two jugs.
+
+If targetCapacity liters of water are measurable, you must have targetCapacity liters of water contained within one or both buckets by the end.
+
+Operations allowed:
+
+    Fill any of the jugs with water.
+    Empty any of the jugs.
+    Pour water from one jug into another till the other jug is completely full, or the first jug itself is empty.
+
+ 
+
+Example 1:
+
+Input: jug1Capacity = 3, jug2Capacity = 5, targetCapacity = 4
+Output: true
+Explanation: The famous Die Hard example 
+
+"""
+class Solution {
+public:
+    bool canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {
+        if(jug1Capacity+jug2Capacity<targetCapacity)
+            return false;
+        int x = jug1Capacity;
+        int y = jug2Capacity;
+        
+        int dir[4] = {x,-x,y,-y};
+        queue<int> q;
+        q.push(0);
+        unordered_set<int> visited;
+        visited.insert(0);
+        
+        // BFS
+        while(!q.empty())
+        {
+            int curr = q.front();
+            q.pop();
+            if(curr == targetCapacity)
+                return true;
+            for(auto d: dir)
+            {
+                int total = d+curr;
+                if(total<0 || total>x+y)
+                    continue;
+                if(visited.find(total)==visited.end())
+                {
+                    visited.insert(total);
+                    q.push(total);
+                }
+            }
+        }
+        return false;
+        
+    }
+};
+
+
+    // Math
+class Solution {
+public:
+    bool canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {
+        
+        if(jug1Capacity+jug2Capacity<targetCapacity)
+            return false;
+        
+        if(jug1Capacity == targetCapacity || jug2Capacity == targetCapacity) return true;
+        
+        if(jug1Capacity + jug2Capacity == targetCapacity)
+            return true;
+        
+        return targetCapacity % __gcd(jug1Capacity,jug2Capacity) == 0;
+        
+    }
+};
