@@ -23,6 +23,9 @@ class NumMatrix {
     private:
       vector<vector<int>> mat;
  
+ // Prefix Sum 2D
+//TC: O(mn) pre computation, O(1) query
+  
     public:
     NumMatrix(vector<vector<int>>& matrix) {
         int m = matrix.size();
